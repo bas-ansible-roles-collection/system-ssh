@@ -1,6 +1,7 @@
 # System SSH (`system-ssh`)
 
 Master:
+[![Build Status](https://semaphoreci.com/api/v1/projects/21d3f025-3a21-4204-9c7a-38cf95772a86/618248/badge.svg)](https://semaphoreci.com/antarctica/ansible-system-ssh)
 
 Develop:
 [![Build Status](https://semaphoreci.com/api/v1/projects/21d3f025-3a21-4204-9c7a-38cf95772a86/618042/badge.svg)](https://semaphoreci.com/antarctica/ansible-system-ssh)
