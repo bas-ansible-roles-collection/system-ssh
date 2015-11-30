@@ -1,0 +1,131 @@
+---
+# Tests SSH and fail2ban are configured correctly by attempting to connect in various ways
+
+# Note: Hosts are hard coded here, there is likely a much better way to do this which I will happily adopt in future
+# versions.
+
+- name: test connecting to machines as root account
+  command: "ssh -o StrictHostKeyChecking=no root@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  register: system_ssh_test_fact_ssh_root
+  when: system_ssh_config_permit_root_login == 'no'
+- name: assert connecting to machines as root account is prohibited
+  assert:
+    that: "'Permission denied' in item.stderr"
+  with_items: system_ssh_test_fact_ssh_root.results
+  when: system_ssh_config_permit_root_login == 'no'
+
+# The 'user:@example.com' indicates an empty password should be used for the SSH connection.
+# Typically this would be used in the form: 'username:password@example.com'.
+# Source: http://unix.stackexchange.com/a/124582
+
+- name: test connecting to machines using password authentication
+  command: "ssh -o StrictHostKeyChecking=no user:@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  register: system_ssh_test_fact_ssh_password
+  when: system_ssh_config_permit_password_login == 'no'
+- name: assert connecting with password authentication is prohibited
+  assert:
+    that: "'Permission denied' in item.stderr"
+  with_items: system_ssh_test_fact_ssh_password.results
+  when: system_ssh_config_permit_root_login == 'no'
+
+# Ideally these tasks would be collapsed down into a do-until loop, however it is not possible to do with a task that
+# is expected to fail, even if 'ignore_errors' is set to true. After the first iteration (which fails) the entire loop
+# will fail.
+# If there is a workaround I will gladly implement it or accept a pull request!
+
+- name: connect to machines using an invalid account to trigger fail2ban - 1/10
+  command: "ssh -o StrictHostKeyChecking=no user@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+- name: connect to machines using an invalid account to trigger fail2ban - 2/10
+  command: "ssh -o StrictHostKeyChecking=no user@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+- name: connect to machines using an invalid account to trigger fail2ban - 3/10
+  command: "ssh -o StrictHostKeyChecking=no user@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+- name: connect to machines using an invalid account to trigger fail2ban - 4/10
+  command: "ssh -o StrictHostKeyChecking=no user@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+- name: connect to machines using an invalid account to trigger fail2ban - 5/10
+  command: "ssh -o StrictHostKeyChecking=no user@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+- name: connect to machines using an invalid account to trigger fail2ban - 6/10
+  command: "ssh -o StrictHostKeyChecking=no user@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+- name: connect to machines using an invalid account to trigger fail2ban - 7/10
+  command: "ssh -o StrictHostKeyChecking=no user@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+- name: connect to machines using an invalid account to trigger fail2ban - 8/10
+  command: "ssh -o StrictHostKeyChecking=no user@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+- name: connect to machines using an invalid account to trigger fail2ban - 9/10
+  command: "ssh -o StrictHostKeyChecking=no user@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+- name: connect to machines using an invalid account to trigger fail2ban - 10/10
+  command: "ssh -o StrictHostKeyChecking=no user@{{ item }}"
+  with_items:
+    - barc-system-ssh-test-ubuntu-bare.v.m
+    - barc-system-ssh-test-centos-bare.v.m
+  changed_when: false
+  ignore_errors: true
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+  register: system_ssh_test_fact_ssh_fail2ban
+- name: assert connecting multiple times in quick succession with an invalid login triggers fail2ban
+  assert:
+    that: "'Connection refused' in item.stderr"
+  with_items: system_ssh_test_fact_ssh_fail2ban.results
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"

@@ -1,0 +1,35 @@
+---
+# Install and configure the Fail2Ban service to protect SSH logins
+
+# In future this may become a role
+- include: setup-epel-repository.yml
+  when: ansible_distribution == "CentOS"
+
+- name: install fail2ban - CentOS
+  yum:
+             pkg={{ item }}
+    update_cache=yes
+           state=present
+  with_items:
+  - fail2ban
+  when: ansible_distribution == "CentOS"
+
+- name: install fail2ban and dependencies - Ubuntu
+  apt:
+                 pkg={{ item }}
+        update_cache=yes
+    cache_valid_time=3600
+               state=present
+  with_items:
+  - fail2ban
+  - iptables-persistent
+  when: ansible_distribution == "Ubuntu"
+
+# Might need to do this on Ubuntu?
+
+- name: configure fail2ban jail for SSH
+  copy:
+     src=etc/fail2ban/jail.d/sshd.local
+    dest=/etc/fail2ban/jail.d/sshd.local
+  when: ansible_distribution == "CentOS"
+  notify: Restart Fail2Ban

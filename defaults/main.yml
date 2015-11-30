@@ -1,0 +1,10 @@
+---
+# Default variables - inventory or playbook overrides will be respected
+
+# SSH Daemon configuration options
+system_ssh_config_permit_root_login: 'no'
+system_ssh_config_permit_password_login: 'no'
+
+# Fail2Ban
+system_ssh_use_fail2ban: true
+system_ssh_use_fail2ban_ssh: true

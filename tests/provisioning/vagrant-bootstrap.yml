@@ -1,0 +1,23 @@
+---
+# Bootstraps a VM for configuration by Ansible - this only needs to be run once per host.
+# This playbook is kept provider specific so it can be called safely by Vagrant using the 'all' hosts option.
+
+# This play is needed to discover information about the control computer so Ansible can access your local username.
+# This is needed where the BARC.prelude role is used as the public key will be named after your local username.
+
+- name: gather facts from control machine to get local username
+  hosts: localhost
+  connection: local
+
+# Do not change the hosts value for this play - Vagrant will pass a special inventory file with suitable connection
+# details automatically. Changing this value will prevent this dynamic inventory being used and cause a fatal error.
+
+- name: setup virtual machines for provisioning
+  hosts: all
+  remote_user: vagrant
+  become: yes
+  vars_files:
+    - "group_vars/BAS-webapps-defaults.yml"
+    - "group_vars/BAS-webapps-{{ ansible_distribution }}-defaults.yml"
+  roles:
+  - BARC.system-users

@@ -1,0 +1,17 @@
+---
+# Handlers for system-ssh
+
+- name: Restart SSH - CentOS
+  service:
+     name=sshd
+    state=restarted
+
+# Command needs to be used due to an Ansible bug - this will be fixed in Ansible 2.0
+# Source: https://github.com/ansible/ansible-modules-core/issues/1298
+- name: Restart SSH - Ubuntu
+  command: service ssh restart
+
+- name: Restart Fail2Ban
+  service:
+     name=fail2ban
+    state=restarted

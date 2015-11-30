@@ -1,0 +1,18 @@
+---
+# Specify any Ansible roles used in playbooks used in this project here.
+# The order roles are listed in this file does not matter, this is set within playbooks.
+
+# For roles available on Ansible Galaxy you do not need to install dependencies, they will be downloaded for you.
+# For other roles, you will need to manually resolve any dependencies by listing them in this file.
+
+# See: http://docs.ansible.com/ansible/galaxy.html for more information.
+
+# As this role is part of the 'system-security' and 'system-core' meta-roles we need to explicitly list the other roles
+# dependencies which would normally be provided for us by listing the meta role.
+
+- src: BARC.system-users
+  version: v0.2.0
+- src: BARC.system-hostname
+  version: v0.1.1
+- src: BARC.system-firewall
+  version: v0.1.0

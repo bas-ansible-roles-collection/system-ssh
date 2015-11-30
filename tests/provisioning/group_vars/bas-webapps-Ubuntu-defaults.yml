@@ -1,0 +1,6 @@
+---
+# These variables override those defined by roles
+# These variables act as configuration defaults for BAS Web & Application projects.
+
+# System Users
+system_users_sudo_group: sudo

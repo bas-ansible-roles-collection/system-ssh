@@ -1,0 +1,25 @@
+---
+# These variables override those defined by roles
+# These variables act as configuration defaults for BAS Web & Application projects.
+
+# System Users
+system_users_users:
+  -
+    username: controller
+    comment: Generic user account for performing system administration or privileged actions
+    shell: /bin/bash
+    authorized_keys_directory: public_keys
+    authorized_keys_files:
+      - "{{ hostvars.localhost.ansible_user_id }}.pub"
+    secondary_groups:
+      - "{{ system_users_sudo_group }}"
+      - adm
+    state: present
+  -
+    username: app
+    comment: Generic user account for performing day-to-day or unprivileged actions
+    shell: /bin/bash
+    authorized_keys_directory: public_keys
+    authorized_keys_files:
+      - "{{ hostvars.localhost.ansible_user_id }}.pub"
+    state: present

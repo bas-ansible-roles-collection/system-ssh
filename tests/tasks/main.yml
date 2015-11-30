@@ -1,0 +1,20 @@
+---
+# Tests the changes to the SSH daemon made by this role
+
+# Management and configuration checks
+# These checks mirror individual tasks to ensure they execute correctly
+# (I.e. that they create a user in the right package or create the correct config file)
+
+# Core configuration
+
+- include: configure-ssh.yml
+
+- include: fail2ban.yml
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+
+# Functionality checks
+# These checks need to run after the package or service has been configured to ensure it is working correctly,
+# using an configuration that may have been set by this role.
+
+# In this role functionality checks are verified by an external VM (to check if connections are correctly blocked).
+# To do this a special testing VM will run the 'functional-tests.yml' task file located alongside this file.
