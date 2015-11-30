@@ -1,6 +1,16 @@
 ---
 
 - include: configure-ssh.yml
+  tags:
+    - BARC_CONFIGURE
+    - BARC_CONFIGURE_SYSTEM
+    - BARC_CONFIGURE_SECURITY
 
 - include: fail2ban.yml
-  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True
+  tags:
+    - BARC_CONFIGURE
+    - BARC_CONFIGURE_SYSTEM
+    - BARC_CONFIGURE_SECURITY
+    - BARC_CONFIGURE_PACKAGES
+    - BARC_INSTALL_PACKAGES

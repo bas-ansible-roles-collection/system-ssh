@@ -14,10 +14,10 @@
   tasks:
     - include: ../tasks/main.yml
 
-# - name: perform functionality checks for this role on an external testing machine
-#   hosts: barc-system-ssh-test-ban-test.v.m
-#   remote_user: app
-#   vars_files:
-#     - ../../../system-ssh/defaults/main.yml
-#   tasks:
-#     - include: ../tasks/functional-tests.yml
+- name: perform functionality checks for this role on an external testing machine
+  hosts: barc-system-ssh-test-ban-test.v.m
+  remote_user: app
+  vars_files:
+    - ../../../system-ssh/defaults/main.yml
+  tasks:
+    - include: ../tasks/functional-tests.yml

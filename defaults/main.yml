@@ -7,4 +7,3 @@ system_ssh_config_permit_password_login: 'no'
 
 # Fail2Ban
 system_ssh_use_fail2ban: true
-system_ssh_use_fail2ban_ssh: true

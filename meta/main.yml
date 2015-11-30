@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Felix Fennell
-  description: Configures SSH daemon settings for a machine
+  description: Configures SSH daemon settings and fail2ban protection for a machine
   company: British Antarctic Survey
 
   issue_tracker_url: https://jira.ceh.ac.uk/browse/BARC
