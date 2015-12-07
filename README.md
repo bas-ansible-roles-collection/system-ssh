@@ -23,7 +23,19 @@ See `tests/README.md` for more information.
 
 ## Dependencies
 
-* [**BARC.system-firewall**](https://galaxy.ansible.com/detail#/role/6281)
+* [**BARC.system-firewall**](https://galaxy.ansible.com/detail#/role/6281) - minimum version: *0.1.0*
+
+### Pinning dependencies
+
+All dependencies of this role will use the latest role version. In many cases this will be unsuitable and so versions
+should be 'pinned' to a specific version to ensure breaking changes for example are introduced. This issue becomes
+increasingly important the longer a project is not updated.
+
+A method developed for BAS projects uses a `roles.yml` file to specify all roles, including dependencies of roles, 
+and their version. This does require you to resolve dependencies for roles manually, however dependencies are listed in
+each role's `meta/main.yml` and `README.md` file.
+
+Note: BAS projects **SHOULD** always pin role versions, except in exceptional circumstances.
 
 ### Avoiding dependencies
 
@@ -54,8 +66,8 @@ Ubuntu.
 
 Once this is fixed changing this role is relatively trivial and will remove the need for separate handlers and tasks.
 
-*This limitation is **not** considered to be significantly limiting, though a solution will be actively pursued pending
-resolution to an upstream bug. Pull requests addressing this limitation will be considered.*  
+*This limitation is **NOT** considered to be significant. A workaround is in place mitigate this limitation, pending a*
+*permanent resolution by Ansible. Pull requests addressing this limitation will be considered.*
 
 See [#1298](https://github.com/ansible/ansible-modules-core/issues/1298) for further information of this upstream bug.
 
@@ -87,7 +99,7 @@ configured outside of this role.
 ```yaml
 ---
 
-- name: setup SSH daemon
+- name: configure SSH
   hosts: all
   become: yes
   vars: []
@@ -100,14 +112,12 @@ configured outside of this role.
 BARC roles use standardised tags to control which aspects of an environment are changed by roles. Where relevant, tags
 will be applied at a role, or task(s) level, as indicated below.
 
-This role uses the following tags, for all tasks:
-
-TODO: Add other tags for package configurations etc.
+This role uses the following tags, for various tasks:
 
 * [**BARC_CONFIGURE**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_CONFIGURE)
-* [**BARC_CONFIGURE_SYSTEM**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_CONFIGURE_SYSTEM)
 * [**BARC_CONFIGURE_SECURITY**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_CONFIGURE_SECURITY)
 * [**BARC_CONFIGURE_PACKAGES**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_CONFIGURE_PACKAGE)
+* [**BARC_INSTALL**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_INSTALL)
 * [**BARC_INSTALL_PACKAGES**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_INSTALL_PACKAGE)
 
 ### Variables
@@ -119,9 +129,9 @@ TODO: Add other tags for package configurations etc.
 * Values **MUST** use one of these options, as determined by the `SSH` Daemon configuration file:
   * `yes`
   * `no`
-* Values **MUST** be quoted to prevent Ansible coercing values to True/False which is invalid for this option
+* Values **MUST** be quoted to prevent Ansible coercing values to True/False which is invalid for this variable
 * Where not specified, a value of `no` will be assumed
-* Default: 'no'
+* Default: `no`
 
 #### *system_ssh_config_permit_password_login*
 
@@ -130,21 +140,21 @@ TODO: Add other tags for package configurations etc.
 * Values **MUST** use one of these options, as determined by the `SSH` Daemon configuration file:
   * `yes`
   * `no`
-* Values **MUST** be quoted to prevent Ansible coercing values to True/False which is invalid for this option
+* Values **MUST** be quoted to prevent Ansible coercing values to True/False which is invalid for this variable
 * Where not specified, a value of `no` will be assumed
-* Default: 'no'
+* Default: `no`
 
 #### *system_ssh_use_fail2ban*
 
 * **MAY** be specified
 * Specifies whether `fail2ban` should be installed and configured to protect against brute forced SSH logins
-* This option is used as a 'feature flag' for whether tasks related to `fail2ban` will be applied
+* This variable is used as a 'feature flag' for whether tasks related to `fail2ban` will be applied
 * Values **MUST** use one of these options, as determined by the `SSH` Daemon configuration file:
   * `true`
   * `false`
 * Values **SHOULD NOT** be quoted to prevent Ansible coercing values to a string
 * Where not specified, a value of `true` will be assumed
-* Default: 'true'
+* Default: `true`
 
 ## Developing
 
@@ -192,5 +202,3 @@ Unless stated otherwise, all documentation is licensed under the Open Government
 licensed under the MIT license.
 
 Copies of these licenses are included within this role.
-
-

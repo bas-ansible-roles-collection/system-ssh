@@ -12,6 +12,9 @@ This role adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 ### Fixed
 
 * Change log formatting
+* README formatting and typos
+* Minor corrections to other files for formatting and typos
+
 ### Changed
 
 * Installing the EPEL repository to install Fail2Ban on CentOS is no longer tagged as 'CONFIGURE_SYSTEM' in line with
