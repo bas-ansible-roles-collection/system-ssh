@@ -10,7 +10,11 @@
   when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
   tags:
     - BARC_CONFIGURE
-    - BARC_CONFIGURE_SYSTEM
     - BARC_CONFIGURE_SECURITY
     - BARC_CONFIGURE_PACKAGES
+    - BARC_INSTALL
     - BARC_INSTALL_PACKAGES
+
+- include: register-role.yml
+  tags:
+    - BARC_ROLE_REGISTRATION

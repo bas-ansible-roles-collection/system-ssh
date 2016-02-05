@@ -10,9 +10,25 @@
 # As this role is part of the 'system-security' and 'system-core' meta-roles we need to explicitly list the other roles
 # dependencies which would normally be provided for us by listing the meta role.
 
-- src: BARC.system-users
-  version: v0.2.0
-- src: BARC.system-hostname
-  version: v0.1.1
-- src: BARC.system-firewall
-  version: v0.1.0
+# Unlike projects, role dependencies are not pinned to ensure roles always work with the latest role versions.
+
+- src: bas-ansible-roles-collection.system-users
+#- src: bas-ansible-roles-collection.system-hostname
+
+# Note: The 'bas-ansible-roles-collection.system-hostname' role is currently unavailable through Ansible Galaxy.
+# Until this bug is resolved, this role is referenced directly from GitHub as a workaround.
+#
+# Source: https://jira.ceh.ac.uk/browse/BARC-105
+
+- src: https://github.com/bas-ansible-roles-collection/system-hostname
+  name: bas-ansible-roles-collection.system-hostname
+
+#- src: bas-ansible-roles-collection.system-firewall
+
+# Note: The 'bas-ansible-roles-collection.system-firewall' role is currently unavailable through Ansible Galaxy.
+# Until this bug is resolved, this role is referenced directly from GitHub as a workaround.
+#
+# Source: https://jira.ceh.ac.uk/browse/BARC-105
+
+- src: https://github.com/bas-ansible-roles-collection/system-firewall
+  name: bas-ansible-roles-collection.system-firewall

@@ -16,8 +16,8 @@ galaxy_info:
     versions:
       - trusty
 
-  categories:
+  galaxy_tags:
   - system
 
 dependencies:
-  - { role: 'BARC.system-firewall', tags: BARC_ROLE_DEPENDENCY }
+  - { role: 'bas-ansible-roles-collection.system-firewall', tags: BARC_ROLE_DEPENDENCY }

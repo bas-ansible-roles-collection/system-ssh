@@ -50,21 +50,22 @@ Note: It is currently only possible to test a single scenario, as we cannot wipe
 
 To *setup* this service:
 
-* Suitable permissions within [SemaphoreCI](https://semaphoreci.com) to create projects under the *antarctica*
-organisation [1]
+* Suitable permissions within [SemaphoreCI](https://semaphoreci.com) to create projects under the 
+*bas-ansible-roles-collection* organisation [1]
 
 To *use* this service:
 
 * Suitable permissions to push to the *develop* branch of the project repository [1]
-* Suitable permissions within [SemaphoreCI](https://semaphoreci.com) to view projects under the *antarctica*
-organisation [1]
+* Suitable permissions within [SemaphoreCI](https://semaphoreci.com) to view projects under the
+*bas-ansible-roles-collection* organisation [1]
 
 [1] Please contact the *Project Maintainer* if you do not have these permissions.
 
 ### Setup
 
 If not added already, create a new project in [SemaphoreCI](https://semaphoreci.com) using the *develop* branch of the
-Project Repository and associate within the *antarctica* organisation. Repeat this for the *master* branch when ready.
+Project Repository and associate within the *bas-ansible-roles-collection* organisation. Repeat this for the *master* 
+branch when ready.
 
 If the project already exists, but not this branch, check the settings below are correct and add the *develop* branch
 as a new build branch manually. Repeat this for the *master* branch when ready.
@@ -77,9 +78,8 @@ In the settings for this project set the *Build Settings* to:
 For the *Setup* thread enter these commands:
 
 ```shell
-mv ~/ansible-system-ssh ~/system-ssh
 cd tests
-pip install ansible
+pip install ansible==1.9.4
 ansible-galaxy install --role-file=roles.yml --force
 ```
 
@@ -102,7 +102,7 @@ If the project and branch already exists, check the settings above are correct.
 ### Usage
 
 Pushing to the `develop` or *master* (when ready) branch will automatically trigger SemaphoreCI, test results are 
-available [here](https://semaphoreci.com/antarctica/ansible-apache).
+available [here](https://semaphoreci.com/bas-ansible-roles-collection/system-ssh).
 
 ## Manual tests
 
