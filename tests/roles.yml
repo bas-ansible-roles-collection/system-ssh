@@ -12,6 +12,23 @@
 
 # Unlike projects, role dependencies are not pinned to ensure roles always work with the latest role versions.
 
-- src: BARC.system-users
-- src: BARC.system-hostname
-- src: BARC.system-firewall
+- src: bas-ansible-roles-collection.system-users
+#- src: bas-ansible-roles-collection.system-hostname
+
+# Note: The 'bas-ansible-roles-collection.system-hostname' role is currently unavailable through Ansible Galaxy.
+# Until this bug is resolved, this role is referenced directly from GitHub as a workaround.
+#
+# Source: https://jira.ceh.ac.uk/browse/BARC-105
+
+- src: https://github.com/bas-ansible-roles-collection/system-hostname
+  name: bas-ansible-roles-collection.system-hostname
+
+#- src: bas-ansible-roles-collection.system-firewall
+
+# Note: The 'bas-ansible-roles-collection.system-firewall' role is currently unavailable through Ansible Galaxy.
+# Until this bug is resolved, this role is referenced directly from GitHub as a workaround.
+#
+# Source: https://jira.ceh.ac.uk/browse/BARC-105
+
+- src: https://github.com/bas-ansible-roles-collection/system-firewall
+  name: bas-ansible-roles-collection.system-firewall
