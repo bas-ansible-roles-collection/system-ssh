@@ -72,7 +72,7 @@ Once this is fixed changing this role is relatively trivial and will remove the 
 
 See [#1298](https://github.com/ansible/ansible-modules-core/issues/1298) for further information of this upstream bug.
 
-See [BARC-](https://jira.ceh.ac.uk/browse/BARC-85) for further information of this limitation in this role.
+See [BARC-85](https://jira.ceh.ac.uk/browse/BARC-85) for further information of this limitation in this role.
 
 ## Usage
 
@@ -179,7 +179,7 @@ This role uses the following tags, for various tasks:
 * **MAY** be specified
 * Specifies whether `fail2ban` should be installed and configured to protect against brute forced SSH logins
 * This variable is used as a 'feature flag' for whether tasks related to `fail2ban` will be applied
-* Values **MUST** use one of these options, as determined by the `SSH` Daemon configuration file:
+* Values **MUST** use one of these options, as determined by Ansible:
   * `true`
   * `false`
 * Values **SHOULD NOT** be quoted to prevent Ansible coercing values to a string
@@ -191,7 +191,7 @@ This role uses the following tags, for various tasks:
 ### Issue tracking
 
 Issues, bugs, improvements, questions, suggestions and other tasks related to this package are managed through the 
-[BAS Ansible Role Collection](https://jira.ceh.ac.uk/projects/BARC) (BARC) project on Jira.
+[BAS Ansible Roles Collection](https://jira.ceh.ac.uk/projects/BARC) (BARC) project on Jira.
 
 This service is currently only available to BAS or NERC staff, although external collaborators can be added on request.
 See our contributing policy for more information.
