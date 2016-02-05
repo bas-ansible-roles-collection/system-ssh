@@ -17,6 +17,7 @@ Note: Developers - make sure to set the `BARC_role_version` variable when releas
 * Change log formatting
 * README formatting and typos
 * Minor corrections to other files for formatting and typos
+* Testing role dependencies should always use latest versions
 
 ### Changed
 

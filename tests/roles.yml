@@ -13,8 +13,5 @@
 # Unlike projects, role dependencies are not pinned to ensure roles always work with the latest role versions.
 
 - src: BARC.system-users
-  version: v0.2.0
 - src: BARC.system-hostname
-  version: v0.1.1
 - src: BARC.system-firewall
-  version: v0.1.0
