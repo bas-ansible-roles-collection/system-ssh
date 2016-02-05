@@ -20,4 +20,4 @@
     - "group_vars/BAS-webapps-defaults.yml"
     - "group_vars/BAS-webapps-{{ ansible_distribution }}-defaults.yml"
   roles:
-  - BARC.system-users
+  - bas-ansible-roles-collection.system-users

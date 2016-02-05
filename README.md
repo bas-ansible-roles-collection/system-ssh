@@ -1,10 +1,10 @@
 # System SSH (`system-ssh`)
 
 Master:
-[![Build Status](https://semaphoreci.com/api/v1/projects/21d3f025-3a21-4204-9c7a-38cf95772a86/618248/badge.svg)](https://semaphoreci.com/antarctica/ansible-system-ssh)
+[![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/system-ssh/branches/master/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/system-ssh)
 
 Develop:
-[![Build Status](https://semaphoreci.com/api/v1/projects/21d3f025-3a21-4204-9c7a-38cf95772a86/618042/badge.svg)](https://semaphoreci.com/antarctica/ansible-system-ssh)
+[![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/system-ssh/branches/develop/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/system-develop)
 
 Configures SSH daemon settings and fail2ban protection for a machine
 
@@ -23,7 +23,8 @@ See `tests/README.md` for more information.
 
 ## Dependencies
 
-* [**BARC.system-firewall**](https://galaxy.ansible.com/detail#/role/6281) - minimum version: *0.1.0*
+* [**bas-ansible-roles-collection.system-firewall**](https://galaxy.ansible.com/bas-ansible-roles-collection/system-firewall/)
+  * Minimum version: *0.2.0*
 
 ### Pinning dependencies
 
@@ -118,7 +119,7 @@ configured outside of this role.
   become: yes
   vars: []
   roles:
-    - BARC.system-ssh
+    - bas-ansible-roles-collection.system-ssh
 ```
 
 ### Tags
@@ -204,7 +205,7 @@ All changes should be committed, via pull request, to the canonical repository, 
 A mirror of this repository is maintained on GitHub. Changes are automatically pushed from the canonical repository to
 this mirror, in a one-way process.
 
-`git@github.com:antarctica/ansible-system-ssh.git`
+`git@github.com:bas-ansible-roles-collection/system-ssh.git`
 
 Note: The canonical repository is only accessible within the NERC firewall. External collaborators, please make pull 
 requests against the mirrored GitHub repository and these will be merged as appropriate.
