@@ -14,3 +14,7 @@
     - BARC_CONFIGURE_PACKAGES
     - BARC_INSTALL
     - BARC_INSTALL_PACKAGES
+
+- include: register-role.yml
+  tags:
+    - BARC_ROLE_REGISTRATION
