@@ -2,197 +2,61 @@
 
 ## Overview
 
-To ensure this role works correctly, tests **MUST** be written for any role changes. Roles must pass their tests before 
-new versions are released. Both manual and automated methods are used to test this role.
+To ensure this role works correctly, tests **MUST** be written for any role changes. Roles must pass their tests before
+new versions are released.
 
-These tests, and their different configurations, aim to cover the most frequent, and not all, ways a role is used. 
+These tests, and their different configurations, aim to cover the most frequent, and not all, ways a role is used using
+multiple environments.
 
-Three aspects of this role are tested:
+* General information on how BARC roles are tested is available in the
+[BARC Overview and Polices Documentation](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Testing)
+* The structure and implementation of these tests is described in more detail in the
+[Pristine - BARC Flavour documentation](https://paper.dropbox.com/doc/BAS-Base-Project-Pristine-BARC-Flavour-07j1BJt65gs2crIhMgWhw#:h=Role-testing)
+* Details on the testing environments these tests are ran within are described in more detail in the [Pristine - BARC Flavour documentation](https://paper.dropbox.com/doc/BAS-Base-Project-Pristine-BARC-Flavour-07j1BJt65gs2crIhMgWhw#:h=Role-testing)
 
-1. **Valid role syntax** - as determined by `ansible-playbook --syntax-check`
-2. **Functionality** - I.e. does this role do what it claims to 
-3. **Idempotency** - I.e. do any changes occur if this role is applied a second time
-
-Tests for these aspects can be split into:
-
-* **Test tasks** - act like unit tests by testing each task to ensure it functions correctly
-* **Test playbooks** - act like integration tests by combining tasks in various scenarios
-
-Test tasks mirror the structure of the `tasks` directory within the main role.
-A playbook is applied to a number of test VMs to run a number of different scenarios, using host variables.
-
-Playbooks, host variables and other support files are kept in this `tests` directory.
-
-A single scenario is tested using *Continuous Integration*:
+The *Testing* environment tests a single scenario:
 
 * Prevents root and password based logins and enabled `fail2ban` to protect against brute forcing SSH
 
-Multiple scenarios are tested *manually*:
+The *Local Testing* environment tests multiple scenarios:
 
-1. `test-bare` - Prevents root and password based logins and enables `fail2ban` to protect against brute forcing SSH
-2. `test-ban-test` - Used for functional tests to verify prohibited SSH settings are correctly applied and `fail2ban`
+1. `test-basic` - Prevents root and password based logins and enables `fail2ban` to protect against brute forcing SSH
+2. `ban-test` - Used for functional tests to verify prohibited SSH settings are correctly applied and `fail2ban`
 will block repeatedly invalid connections
 
-Note: Multiple scenarios may be run within the same VM, providing they do not overlap.
+**Note:** *Local Testing* environments test scenarios on all operating systems this role supports. Services providing
+*Testing* environments may limit which operating system are available (e.g. SemaphoreCI only supports Ubuntu Trusty).
 
-Manually run scenarios are run on all Operating Systems this role supports. Continuous Integration scenarios only run 
-on Ubuntu Trusty (14.04).
+## Setup
 
-## Continuous Integration
+To bring up a local testing environment:
 
-[SemaphoreCI](https://semaphoreci.com/) is used for Continuous Integration in this role. Pushing changes to this roles 
-repository will automatically trigger Semaphore to run a set of tests. These tests will run a single scenario, 
-indicated previously.
+1. Ensure you meet all the
+[requirements](https://paper.dropbox.com/doc/BAS-Base-Project-Pristine-Base-Flavour-Usage-ZdMdHHzf8xB4HjxcNuDXa#:h=Environment---local-testing)
+to bring up a local testing environment
+2. `$ cd system-ssh/tests/provisioning/site-testing-local`
+3. `$ vagrant up`
+4. `$ cd ..`
+5. `$ ansible-playbook site-testing-local.yml`
 
-Note: It is currently only possible to test a single scenario, as we cannot wipe the test VM during the test process.
+To bring up the testing environment:
 
-### Requirements
+1. Ensure you meet all the [requirements](https://paper.dropbox.com/doc/BAS-Base-Project-Pristine-Base-Flavour-Usage-ZdMdHHzf8xB4HjxcNuDXa#:h=Environment---testing)
+to bring up a testing environment
+2. Ensure you have performed all the [setup tasks](https://paper.dropbox.com/doc/BAS-Base-Project-Pristine-Base-Flavour-Usage-ZdMdHHzf8xB4HjxcNuDXa#:h=Environment---testing)
+for the testing environment
 
-To *setup* this service:
+Note: This role uses *SeamphoreCI* as its Continuous Integration service.
 
-* Suitable permissions within [SemaphoreCI](https://semaphoreci.com) to create projects under the 
-*bas-ansible-roles-collection* organisation [1]
+## Usage
 
-To *use* this service:
+To run tests using a local testing environment:
 
-* Suitable permissions to push to the *develop* branch of the project repository [1]
-* Suitable permissions within [SemaphoreCI](https://semaphoreci.com) to view projects under the
-*bas-ansible-roles-collection* organisation [1]
+1. `$ cd system-ssh/tests/provisioning`
+2. `$ ansible-playbook app-test-local.yml`
 
-[1] Please contact the *Project Maintainer* if you do not have these permissions.
+To run tests using a remote testing environment:
 
-### Setup
+* No action is needed other than committing changes to the role repository, tests will then run automatically
 
-If not added already, create a new project in [SemaphoreCI](https://semaphoreci.com) using the *develop* branch of the
-Project Repository and associate within the *bas-ansible-roles-collection* organisation. Repeat this for the *master* 
-branch when ready.
-
-If the project already exists, but not this branch, check the settings below are correct and add the *develop* branch
-as a new build branch manually. Repeat this for the *master* branch when ready.
-
-In the settings for this project set the *Build Settings* to:
-
-* Language: *Python*
-* Version: *2.7*
-
-For the *Setup* thread enter these commands:
-
-```shell
-cd tests
-pip install ansible==1.9.4
-ansible-galaxy install --role-file=roles.yml --force
-```
-
-For *Thread #1* rename to *Build and Test* with these commands:
-
-```shell
-ansible-playbook provisioning/site-ci.yml --syntax-check
-ansible-playbook provisioning/site-ci.yml --connection=local
-ansible-playbook provisioning/site-ci.yml --connection=local | tee /tmp/output.txt; grep -q 'changed=0.*failed=0' /tmp/output.txt && (echo 'Idempotence test: pass' && exit 0) || (echo 'Idempotence test: fail' && exit 1)
-```
-
-Set the *Branches* settings to:
-
-* Build new branches: `Never`
-
-Copy the build badge for the *develop* and *master* (when ready) branches to this README.
-
-If the project and branch already exists, check the settings above are correct.
-
-### Usage
-
-Pushing to the `develop` or *master* (when ready) branch will automatically trigger SemaphoreCI, test results are 
-available [here](https://semaphoreci.com/bas-ansible-roles-collection/system-ssh).
-
-## Manual tests
-
-Manual tests are more complete than Continuous Integration, by testing all test scenarios. These tests are therefore 
-slower and more time consuming to run than CI tests. The use of Ansible and simple shell scripts aims to reduce this 
-effort/complexity as far as is practical.
-
-### Requirements
-
-#### All environments
-
-* Mac OS X or Linux
-* [VMware Fusion](http://vmware.com/fusion) `brew cask install vmware-fusion` [1] [2]
-* [Vagrant](http://vagrantup.com) `brew cask install vagrant` [1] [2]
-* Vagrant plugins:
-    * [Vagrant VMware](http://www.vagrantup.com/vmware) `vagrant plugin install vagrant-vmware-fusion`
-    * [Host manager](https://github.com/smdahlen/vagrant-hostmanager) `vagrant plugin install vagrant-hostmanager`
-* [Git](http://git-scm.com/) `brew install git` [3] [2]
-* [Ansible](http://www.ansible.com) `brew install ansible` [3] [2]
-* You have a [private key](https://help.github.com/articles/generating-ssh-keys/) `id_rsa`
-and [public key](https://help.github.com/articles/generating-ssh-keys/) `id_rsa.pub` in `~/.ssh/`
-* You have an entry like [4] in your `~/.ssh/config`
-
-[1] `brew` is a package manager for Mac OS X, see [here](http://brew.sh/) for details.
-
-[2] Although these instructions uses `brew` and `brew cask` these are not required, 
-binaries/packages can be installed manually if you wish.
-
-[3] `brew cask` is a package manager for Mac OS X binaries, see [here](http://caskroom.io/) for details.
-
-[4] SSH config entry
-
-```shell
-Host *.v.m
-    ForwardAgent yes
-    User app
-    IdentityFile ~/.ssh/id_rsa
-    Port 22
-```
-
-### Setup
-
-It is assumed you are in the root of this role.
-
-```shell
-cd tests
-```
-
-VMs are powered by VMware, managed using Vagrant and configured by Ansible.
-
-```shell
-$ vagrant up
-```
-
-Vagrant will automatically configure the localhost hosts file for infrastructure it creates on your behalf:
-
-| Name                             | Points To         | FQDN                                   | Notes                       |
-| -------------------------------- | ----------------- | -------------------------------------- | --------------------------- |
-| barc-system-ssh-test-ubuntu-bare | *computed value*  | `barc-system-ssh-test-ubuntu-bare.v.m` | The VM's private IP address |
-| barc-system-ssh-test-centos-bare | *computed value*  | `barc-system-ssh-test-centos-bare.v.m` | The VM's private IP address |
-| barc-system-ssh-test-ban-test    | *computed value*  | `barc-system-ssh-test-ban-test.v.m`    | The VM's private IP address |
-
-Note: Vagrant managed VMs also have a second, host-guest only, network for management purposes not documented here.
-
-### Usage
-
-Use this shell script to run all test phases automatically:
-
-```shell
-$ ./tests/run-local-tests.sh
-```
-
-Alternatively run each phase separately:
-
-```shell
-# Check syntax:
-$ ansible-playbook provisioning/site-test.yml --syntax-check
-
-# Apply playbook:
-$ ansible-playbook provisioning/site-test.yml
-
-# Apply again to check idempotency:
-# Note: The 'remove user' scenario is permitted to fail this check
-$ ansible-playbook provisioning/site-test.yml
-```
-
-Note: The use of `#` in the above indicates a comment, not a root shell.
-
-### Clean up
-
-```shell
-$ vagrant destroy
-```
+Results for these tests can be found [here](https://semaphoreci.com/bas-ansible-roles-collection/system-ssh).

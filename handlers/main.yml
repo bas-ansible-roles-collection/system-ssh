@@ -8,8 +8,13 @@
 
 # Command needs to be used due to an Ansible bug - this will be fixed in Ansible 2.0
 # Source: https://github.com/ansible/ansible-modules-core/issues/1298
-- name: Restart SSH - Ubuntu
+- name: Restart SSH - Ubuntu - Command
   command: service ssh restart
+
+- name: Restart SSH - Ubuntu - Service
+  service:
+    name=ssh
+   state=restarted
 
 - name: Restart Fail2Ban
   service:

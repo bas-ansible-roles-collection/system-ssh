@@ -1,0 +1,21 @@
+---
+# Run tests for role
+
+- name: apply role and run tests
+  hosts:
+    - system-ssh-test-ubuntu-basic.v.m
+    - system-ssh-test-centos-basic.v.m
+  remote_user: "{{ privileged_remote_user }}"
+  become: yes
+  roles:
+    - ../../../system-ssh
+  tasks:
+    - include: ../tasks/main.yml
+
+- name: perform functionality checks for this role on an external testing machine
+  hosts: system-ssh-test-ban-test.v.m
+  remote_user: "{{ privileged_remote_user }}"
+  vars_files:
+    - ../../../system-ssh/defaults/main.yml
+  tasks:
+    - include: ../tasks/functionality/ban-test.yml

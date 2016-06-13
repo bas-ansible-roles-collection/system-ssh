@@ -13,9 +13,17 @@
     dest="/etc/ssh/sshd_config"
   when: ansible_distribution == "CentOS"
   notify: "Restart SSH - CentOS"
-- name: generate configuration file for SSH daemon - Ubuntu
+
+- name: generate configuration file for SSH daemon - Ubuntu (Command handler)
   template:
      src="etc/ssh/sshd_config_{{ ansible_distribution }}.j2"
     dest="/etc/ssh/sshd_config"
-  when: ansible_distribution == "Ubuntu"
-  notify: "Restart SSH - Ubuntu"
+  when: ansible_distribution == "Ubuntu" and ansible_version.major == 1
+  notify: "Restart SSH - Ubuntu - Command"
+
+- name: generate configuration file for SSH daemon - Ubuntu (Service handler)
+  template:
+     src="etc/ssh/sshd_config_{{ ansible_distribution }}.j2"
+    dest="/etc/ssh/sshd_config"
+  when: ansible_distribution == "Ubuntu" and ansible_version.major == 2
+  notify: "Restart SSH - Ubuntu - Service"

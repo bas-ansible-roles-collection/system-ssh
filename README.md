@@ -1,14 +1,13 @@
 # System SSH (`system-ssh`)
 
-Master:
-[![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/system-ssh/branches/master/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/system-ssh)
+Master: [![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/system-ssh/branches/master/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/system-ssh)
+Develop: [![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/system-ssh/branches/develop/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/system-ssh)
 
-Develop:
-[![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/system-ssh/branches/develop/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/system-develop)
-
-Configures SSH daemon settings and fail2ban protection for a machine
+Configures SSH daemon settings and fail2ban protection for a machine.
 
 **Part of the BAS Ansible Role Collection (BARC)**
+
+**This role uses version 0.3.1 of the BARC flavour of the BAS Base Project - Pristine**.
 
 ## Overview
 
@@ -18,45 +17,35 @@ Configures SSH daemon settings and fail2ban protection for a machine
 
 ## Quality Assurance
 
-This role uses manual and automated testing to ensure the features offered by this role work as advertised. 
-See `tests/README.md` for more information.
+This role uses manual and automated testing to ensure its features work as advertised.
+See [here](tests/README.md) for more information.
+
+## Ansible compatibility
+
+* this role supports Ansible 1.8 or higher in the 1.x series
+* this role supports Ansible 2.x
+
+**Note:** Support for Ansible 1.x is deprecated by this role, future versions will support Ansible 2.x only.
+
+More information on Ansible compatibility is available in the
+[BARC General Documentation](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Ansible-compatbility).
 
 ## Dependencies
 
 * [**bas-ansible-roles-collection.system-firewall**](https://galaxy.ansible.com/bas-ansible-roles-collection/system-firewall/)
   * Minimum version: *0.2.0*
 
-### Pinning dependencies
+More information on role dependencies is available in the
+[BARC General Documentation](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Role-dependencies)
 
-All dependencies of this role will use the latest role version. In many cases this will be unsuitable and so versions
-should be 'pinned' to a specific version to ensure breaking changes for example are introduced. This issue becomes
-increasingly important the longer a project is not updated.
-
-A method developed for BAS projects uses a `roles.yml` file to specify all roles, including dependencies of roles, 
-and their version. This does require you to resolve dependencies for roles manually, however dependencies are listed in
-each role's `meta/main.yml` and `README.md` file.
-
-Note: BAS projects **SHOULD** always pin role versions, except in exceptional circumstances.
-
-### Avoiding dependencies
-
-All dependencies of this role are tagged as *BARC_ROLE_DEPENDENCY*. Skipping this tag when executing a playbook that
-includes this role will prevent role dependencies from being installed.
-
-E.g.
-
-```shell
-$ ansible-playbook playbook.yml --skip-tags "BARC_ROLE_DEPENDENCY"
-```
-
-Note: This 'dependency' tag is shared across all BARC roles, and skipping it will therefore exclude all dependencies,
-from all BARC roles. There is currently no supported method to exclude only this roles dependencies.
-
-Note: Using this role without its dependencies is **NOT** supported, and may lead to incomplete results or errors.
+**Note:** Using this role without its dependencies is **NOT** supported, and may lead to incomplete results or errors.
 
 ## Requirements
 
-* None
+* none
+
+More information on role requirements is available in the
+[BARC General Documentation](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Role-requirements)
 
 ## Limitations
 
@@ -74,21 +63,24 @@ See [#1298](https://github.com/ansible/ansible-modules-core/issues/1298) for fur
 
 See [BARC-85](https://jira.ceh.ac.uk/browse/BARC-85) for further information of this limitation in this role.
 
+More information on role limitations is available in the
+[BARC General Documentation](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Role-limitations)
+
 ## Usage
 
-### BARC manifest
+### BARC Manifest
 
-By default, BARC roles will record that they have been applied to a system. This is recorded using a set of 
-[Ansible local facts](http://docs.ansible.com/ansible/playbooks_variables.html#local-facts-facts-d), specifically:
+By default, BARC roles will record that they have been applied to a system, this is termed the BAS Manifest.
+The specific local facts set for this role are:
 
-* `ansible_local.barc-system-ssh.general.role_applied` - to indicate that this role has been applied
-* `ansible_local.barc-system-ssh.general.role_version` - to indicate the applied version of this role
+* `ansible_local.barc_system_ssh.general.role_applied` - (boolean) records whether a role has been applied
+* `ansible_local.barc_system_ssh.general.role_version` - (string) records the version of the role that was applied
 
-Note: You **SHOULD** use this feature to determine whether this role has been applied to a system.
+**Note:** You **SHOULD** use this feature to determine whether this role has been applied to a system.
+If you do not want these facts to be set by this role, you **MUST** skip the **BARC_SET_MANIFEST** tag.
 
-If you do not want these facts to be set by this role, you **MUST** skip the **BARC_SET_MANIFEST** tag. No support is 
-offered in this case, as other roles or use-cases may rely on this feature. Therefore you **SHOULD NOT** disable this
-feature.
+More information is available in the
+[BARC General Documentation](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Role-Manifest)
 
 ### SSH Daemon configuration
 
@@ -114,7 +106,7 @@ configured outside of this role.
 ```yaml
 ---
 
-- name: configure SSH
+- name: ...
   hosts: all
   become: yes
   vars: []
@@ -124,33 +116,27 @@ configured outside of this role.
 
 ### Tags
 
-BARC roles use standardised tags to control which aspects of an environment are changed by roles. Where relevant, tags
-will be applied at a role, or task(s) level, as indicated below.
+BARC roles use standardised tags to control which aspects of an environment are changed by roles.
+Tasks in this role will 'tag' themselves with these tags as appropriate, typically in `tasks/main.yml`.
 
-This role uses the following tags, for various tasks:
-
-* [**BARC_CONFIGURE**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_CONFIGURE)
-* [**BARC_CONFIGURE_SECURITY**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_CONFIGURE_SECURITY)
-* [**BARC_CONFIGURE_PACKAGES**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_CONFIGURE_PACKAGE)
-* [**BARC_INSTALL**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_INSTALL)
-* [**BARC_INSTALL_PACKAGES**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_INSTALL_PACKAGE)
-* [**BARC_SET_MANIFEST**](https://antarctica.hackpad.com/BARC-Standardised-Tags-AviQxxiBa3y#:h=BARC_SET_MANIFEST)
+More information is available in the
+[BARC General Documentation](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Appendix-B---BARC-Standardised)
 
 ### Variables
 
-#### *BARC_role_name*
+#### *system_ssh_barc_role_name*
 
 * **MUST NOT** be specified
-* Specifies the name of this role within the BAS Ansible Roles Collection (BARC) used for setting local facts
-* See the *BARC roles manifest* section for more information
-* Example: system-ssh
+* specifies the name of this role within the BAS Ansible Roles Collection (BARC) used for setting local facts
+* see the *BARC roles manifest* section for more information
+* example: `system_ssh`
 
-#### *BARC_role_version*
+#### *system_ssh_barc_role_version*
 
 * **MUST NOT** be specified
-* Specifies the name of this role within the BAS Ansible Roles Collection (BARC) used for setting local facts
-* See the *BARC roles manifest* section for more information
-* Example: 2.0.0
+* specifies the name of this role within the BAS Ansible Roles Collection (BARC) used for setting local facts
+* see the *BARC roles manifest* section for more information
+* example: `2.0.0`
 
 #### *system_ssh_config_permit_root_login*
 
@@ -190,50 +176,42 @@ This role uses the following tags, for various tasks:
 
 ### Issue tracking
 
-Issues, bugs, improvements, questions, suggestions and other tasks related to this package are managed through the 
+Issues, bugs, improvements, questions, suggestions and other tasks related to this package are managed through the
 [BAS Ansible Roles Collection](https://jira.ceh.ac.uk/projects/BARC) (BARC) project on Jira.
 
 This service is currently only available to BAS or NERC staff, although external collaborators can be added on request.
 See our contributing policy for more information.
 
+More information is also available in the
+[BARC General Documentation](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Issue-Tracking)
+
 ### Source code
 
-All changes should be committed, via pull request, to the canonical repository, which for this project is:
+All changes should be committed, via pull request, to the canonical repository:
 
 `ssh://git@stash.ceh.ac.uk:7999/barc/system-ssh.git`
 
-A mirror of this repository is maintained on GitHub. Changes are automatically pushed from the canonical repository to
-this mirror, in a one-way process.
+A read-only mirror of this repository is maintained on GitHub:
 
 `git@github.com:bas-ansible-roles-collection/system-ssh.git`
 
-Note: The canonical repository is only accessible within the NERC firewall. External collaborators, please make pull 
-requests against the mirrored GitHub repository and these will be merged as appropriate.
+More information is available in the
+[BARC General Documentation](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Source-Code)
 
 ### Contributing policy
 
-This project welcomes contributions, see `CONTRIBUTING.md` for our general policy.
-
-The [Git flow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow/) 
-workflow is used to manage the development of this project:
-
-* Discrete changes should be made within feature branches, created from and merged back into develop 
-(where small changes may be made directly)
-* When ready to release a set of features/changes, create a release branch from develop, update documentation as 
-required and merge into master with a tagged, semantic version (e.g. v1.2.3)
-* After each release, the master branch should be merged with develop to restart the process
-* High impact bugs can be addressed in hotfix branches, created from and merged into master (then develop) directly
+This role welcomes contributions, see `CONTRIBUTING.md` for our general policy.
 
 ### Release procedure
 
-See [here](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Release-procedures) for general 
-release procedures for BARC roles.
+The general release procedure for BARC roles is available in the
+[BARC General Documentation](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Release-procedures)
 
 ## Licence
 
-Copyright 2015 NERC BAS.
+Copyright 2016 NERC BAS.
 
-Unless stated otherwise, all documentation is licensed under the Open Government License - version 3. All code is
-licensed under the MIT license.
+Unless stated otherwise, all documentation is licensed under the Open Government License - version 3.
+All code is licensed under the MIT license.
 
 Copies of these licenses are included within this role.
