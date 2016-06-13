@@ -1,0 +1,29 @@
+---
+# Manages SSH configuration
+
+# This task is repeated as a different handler needs to be called depending on the OS.
+# A different handler is needed because there is a bug with restarting the SSH Daemon on Ubuntu.
+
+# Normally we would use a single template task and set fact to feed in the name of the service to restart in a common
+# handler. However, in this case, the handler requires the use of a different Ansible module for each OS.
+
+- name: generate configuration file for SSH daemon - CentOS
+  template:
+     src="etc/ssh/sshd_config_{{ ansible_distribution }}.j2"
+    dest="/etc/ssh/sshd_config"
+  when: ansible_distribution == "CentOS"
+  notify: "Restart SSH - CentOS"
+
+- name: generate configuration file for SSH daemon - Ubuntu (Command handler)
+  template:
+     src="etc/ssh/sshd_config_{{ ansible_distribution }}.j2"
+    dest="/etc/ssh/sshd_config"
+  when: ansible_distribution == "Ubuntu" and ansible_version.major == 1
+  notify: "Restart SSH - Ubuntu - Command"
+
+- name: generate configuration file for SSH daemon - Ubuntu (Service handler)
+  template:
+     src="etc/ssh/sshd_config_{{ ansible_distribution }}.j2"
+    dest="/etc/ssh/sshd_config"
+  when: ansible_distribution == "Ubuntu" and ansible_version.major == 2
+  notify: "Restart SSH - Ubuntu - Service"

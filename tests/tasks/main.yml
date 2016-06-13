@@ -1,0 +1,37 @@
+---
+# Tests ...
+
+# Flush handlers
+#
+# This ensures any pending handlers are executed before any tests are performed. This is particularly important where
+# a service needs to be restarted before new configuration options are used for example.
+
+- meta: flush_handlers
+
+# Reload local facts
+#
+# This ensures any Ansible local facts registered by tasks in the current playbook are loaded and so can be tested.
+
+- action: setup
+
+# Atomic tests
+#
+# These tests mirror individual tasks to ensure they execute correctly
+# E.g. creating a user, installing the right package or generating a valid configuration file
+
+- include: atomic/configure-ssh.yml
+
+- include: atomic/fail2ban.yml
+  when: system_ssh_use_fail2ban == true or system_ssh_use_fail2ban == "True"
+
+- include: atomic/register-role.yml
+
+# Functionality tests
+#
+# These tests ensure overall processes can be completed to give a valid result
+# E.g. checking a web-server serves a web-page ensures the relevant packages and configuration files work together
+
+# In this role functionality checks are verified by an external VM (to check if connections are correctly blocked).
+# To do this a special testing VM will run the 'functional-tests.yml' task file located alongside this file.
+
+- include: functionality/barc-manifest.yml

@@ -1,0 +1,7 @@
+---
+# Setup infrastructure for testing a role
+
+- name: setup nodes for role tests
+  hosts: project--system-ssh:&env--test-local
+  remote_user: "{{ privileged_remote_user }}"
+  become: yes

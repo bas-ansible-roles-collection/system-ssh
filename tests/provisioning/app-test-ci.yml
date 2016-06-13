@@ -1,0 +1,11 @@
+---
+# Run tests for role
+
+- name: apply role and run tests
+  hosts: localhost
+  remote_user: "{{ privileged_remote_user }}"
+  become: yes
+  roles:
+    - ../../../system-ssh
+  tasks:
+    - include: ../tasks/main.yml

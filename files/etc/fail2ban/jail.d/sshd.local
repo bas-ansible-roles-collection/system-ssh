@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+#
+# Fail2Ban jail definition for SSH Daemon
+# Defaults for this jail are defined '[sshd]' section in '/etc/fail2ban/jail.conf', but should be overridden here
+
+[sshd]
+enabled = true

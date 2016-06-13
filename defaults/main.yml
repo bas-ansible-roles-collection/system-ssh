@@ -1,0 +1,13 @@
+---
+# Default variables - inventory or playbook overrides will be respected
+
+# BARC specific variables
+system_ssh_barc_role_name: system_ssh
+system_ssh_barc_role_version: 0.3.0
+
+# SSH Daemon configuration variables
+system_ssh_config_permit_root_login: 'no'
+system_ssh_config_permit_password_login: 'no'
+
+# Fail2Ban configuration variables
+system_ssh_use_fail2ban: true
