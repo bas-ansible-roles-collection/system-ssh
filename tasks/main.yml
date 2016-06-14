@@ -1,4 +1,5 @@
 ---
+# Configure SSH and install Fail2Ban
 
 - include: configure-ssh.yml
   tags:

@@ -2,8 +2,8 @@
 # Default variables - inventory or playbook overrides will be respected
 
 # BARC specific variables
-system_ssh_barc_role_name: system-ssh
-system_ssh_barc_role_version: 0.2.0
+system_ssh_barc_role_name: system_ssh
+system_ssh_barc_role_version: 0.3.0
 
 # SSH Daemon configuration variables
 system_ssh_config_permit_root_login: 'no'

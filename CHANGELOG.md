@@ -3,9 +3,15 @@
 All notable changes to this role will be documented in this file.
 This role adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-Note: Developers - make sure to set the `BARC_role_version` variable when releasing new versions of this role.
+Remember: Make sure to update system_ssh_barc_role_version variable when a new version is released.
 
 ## [Unreleased][unreleased]
+
+### Added
+
+* Compatibility with Ansible 2.0
+* Refactoring role to use version 0.3.1 of the https://github.com/bas-ansible-roles-collection/system-ssh.git flavour 
+of the BAS Base Project - Pristine
 
 ## 0.2.0 - 30/11/2015
 
