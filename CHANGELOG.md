@@ -7,6 +7,8 @@ Remember: Make sure to update system_ssh_barc_role_version variable when a new v
 
 ## [Unreleased][unreleased]
 
+## 0.3.0 - 14/06/2016
+
 ### Added
 
 * Compatibility with Ansible 2.0
